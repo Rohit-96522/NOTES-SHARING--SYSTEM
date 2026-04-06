@@ -1,7 +1,33 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 function Dashboard() {
+  const [stats, setStats] = useState({ total: 0, subjects: 0, recent: 0 });
+
+  useEffect(() => {
+    fetch('http://localhost:5000/api/notes')
+      .then(res => res.json())
+      .then(data => {
+        // Compute stats from the notes array
+        const uniqueSubjects = new Set(data.map(note => note.subject)).size;
+        
+        // Define "recent" as added within the last 7 days
+        const sevenDaysAgo = new Date();
+        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+        const recentCount = data.filter(note => {
+          const dateStr = note.createdAt || note.uploadedAt;
+          if (!dateStr) return false;
+          return new Date(dateStr) > sevenDaysAgo;
+        }).length;
+
+        setStats({
+          total: data.length,
+          subjects: uniqueSubjects,
+          recent: recentCount
+        });
+      })
+      .catch(err => console.error("Failed to load notes for stats:", err));
+  }, []);
   return (
     <div>
       <div className="page-header">
@@ -14,17 +40,17 @@ function Dashboard() {
 
       <div className="dashboard-grid">
         <div className="glass-card stat-card">
-          <div className="stat-value">124</div>
+          <div className="stat-value">{stats.total}</div>
           <div className="stat-label">Total Notes Available</div>
         </div>
         
         <div className="glass-card stat-card">
-          <div className="stat-value">32</div>
+          <div className="stat-value">{stats.subjects}</div>
           <div className="stat-label">Subjects Covered</div>
         </div>
         
         <div className="glass-card stat-card">
-          <div className="stat-value">8</div>
+          <div className="stat-value">{stats.recent}</div>
           <div className="stat-label">Recent Uploads</div>
         </div>
       </div>

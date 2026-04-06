@@ -19,16 +19,36 @@ function UploadNote() {
     setFormData({ ...formData, file: e.target.files[0] });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.title || !formData.subject || !formData.file) {
       alert('Please fill out all required fields.');
       return;
     }
-    // Simulate backend upload
-    console.log('Uploading payload:', formData);
-    alert('Note successfully uploaded! (Simulated)');
-    navigate('/notes');
+    
+    const data = new FormData();
+    data.append('title', formData.title);
+    data.append('subject', formData.subject);
+    data.append('description', formData.description);
+    data.append('file', formData.file);
+
+    try {
+      const response = await fetch('http://localhost:5000/api/notes/upload', {
+        method: 'POST',
+        body: data,
+      });
+
+      if (response.ok) {
+        alert('Note successfully uploaded!');
+        navigate('/notes');
+      } else {
+        const errData = await response.json();
+        alert(`Failed to upload: ${errData.message || 'Unknown error'}`);
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Error uploading file');
+    }
   };
 
   return (

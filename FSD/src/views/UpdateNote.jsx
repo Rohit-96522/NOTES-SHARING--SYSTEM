@@ -8,18 +8,23 @@ function UpdateNote() {
     title: '',
     subject: '',
     description: '',
-    status: 'Active'
+    status: 'Active',
+    file: null
   });
 
-  // Mock fetching existing logic
   useEffect(() => {
-    // In a real app we would: fetch(/api/notes/${id})
-    setFormData({
-      title: 'Existing Note ' + id,
-      subject: 'Computer Science',
-      description: 'This is mock data loaded into the form.',
-      status: 'Active'
-    });
+    fetch(`http://localhost:5000/api/notes/${id}`)
+      .then(res => res.json())
+      .then(data => {
+        setFormData({
+          title: data.title,
+          subject: data.subject,
+          description: data.description,
+          status: data.status,
+          file: null
+        });
+      })
+      .catch(err => console.error("Failed to load note:", err));
   }, [id]);
 
   const handleChange = (e) => {
@@ -27,11 +32,39 @@ function UpdateNote() {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleFileChange = (e) => {
+    setFormData({ ...formData, file: e.target.files[0] });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Update payload:', formData);
-    alert('Note successfully updated! (Simulated)');
-    navigate('/notes');
+    
+    const data = new FormData();
+    data.append('title', formData.title);
+    data.append('subject', formData.subject);
+    data.append('description', formData.description);
+    data.append('status', formData.status);
+    if (formData.file) {
+      data.append('file', formData.file);
+    }
+
+    try {
+      const response = await fetch(`http://localhost:5000/api/notes/${id}`, {
+        method: 'PUT',
+        body: data,
+      });
+
+      if (response.ok) {
+        alert('Note successfully updated!');
+        navigate('/notes');
+      } else {
+        const errData = await response.json();
+        alert(`Failed to update: ${errData.message || 'Unknown error'}`);
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Error updating note');
+    }
   };
 
   return (
@@ -91,6 +124,18 @@ function UpdateNote() {
               value={formData.description}
               onChange={handleChange}
             ></textarea>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="file">Attach New File (Optional)</label>
+            <input 
+              type="file" 
+              id="file" 
+              name="file" 
+              className="form-control" 
+              onChange={handleFileChange}
+              style={{ background: 'transparent', padding: '0.5rem 0' }}
+            />
           </div>
 
           <div style={{ display: 'flex', gap: '1rem', marginTop: '2rem' }}>

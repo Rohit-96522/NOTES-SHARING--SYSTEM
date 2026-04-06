@@ -1,13 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 function NoteList() {
-  // Mock Data since there is no backend yet
-  const [notes] = useState([
-    { _id: '1', title: 'Data Structures and Algorithms', subject: 'Computer Science', description: 'Complete notes for trees, graphs, and sorting.', status: 'Active', uploadedAt: '2026-04-01' },
-    { _id: '2', title: 'Introduction to Mechanics', subject: 'Physics', description: 'Kinematics, dynamics, and Newton\\\'s laws.', status: 'Active', uploadedAt: '2026-04-03' },
-    { _id: '3', title: 'Calculus III Limits', subject: 'Mathematics', description: 'Multivariable calculus notes and limit rules.', status: 'Inactive', uploadedAt: '2026-03-28' },
-  ]);
+  const [notes, setNotes] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('http://localhost:5000/api/notes')
+      .then(res => res.json())
+      .then(data => {
+        setNotes(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error("Failed to fetch notes:", err);
+        setLoading(false);
+      });
+  }, []);
+
+  const handleDelete = async (id) => {
+    if (window.confirm("Are you sure you want to delete this note?")) {
+      try {
+        await fetch(`http://localhost:5000/api/notes/${id}`, { method: 'DELETE' });
+        setNotes(notes.filter(note => note._id !== id));
+      } catch (err) {
+        console.error("Failed to delete note:", err);
+      }
+    }
+  };
 
   return (
     <div>
@@ -20,7 +40,9 @@ function NoteList() {
       </div>
 
       <div className="notes-grid">
-        {notes.length === 0 ? (
+        {loading ? (
+          <p style={{ color: 'var(--text-muted)' }}>Loading notes...</p>
+        ) : notes.length === 0 ? (
           <p style={{ color: 'var(--text-muted)' }}>No notes found.</p>
         ) : (
           notes.map((note) => (
@@ -31,11 +53,14 @@ function NoteList() {
               <h3>{note.title}</h3>
               <p><strong>{note.subject}</strong></p>
               <p>{note.description}</p>
-              <small style={{ color: 'var(--text-muted)' }}>Uploaded: {note.uploadedAt}</small>
+              <small style={{ color: 'var(--text-muted)' }}>Uploaded: {new Date(note.createdAt || note.uploadedAt).toLocaleDateString()}</small>
               
               <div className="note-actions">
                 <Link to={`/update/${note._id}`} className="btn btn-secondary">Edit</Link>
-                <button className="btn btn-primary" onClick={() => alert('Download simulated!')}>Download</button>
+                {note.fileUrl && (
+                  <a href={`http://localhost:5000${note.fileUrl}`} target="_blank" rel="noreferrer" className="btn btn-primary" download>Download</a>
+                )}
+                <button onClick={() => handleDelete(note._id)} className="btn btn-secondary" style={{ background: '#ff4d4f', borderColor: '#ff4d4f', color: '#fff' }}>Delete</button>
               </div>
             </div>
           ))
