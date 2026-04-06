@@ -11,6 +11,7 @@ function UpdateNote() {
     status: 'Active',
     file: null
   });
+  const [message, setMessage] = useState({ type: '', text: '' });
 
   useEffect(() => {
     fetch(`http://localhost:5000/api/notes/${id}`)
@@ -55,15 +56,15 @@ function UpdateNote() {
       });
 
       if (response.ok) {
-        alert('Note successfully updated!');
-        navigate('/notes');
+        setMessage({ type: 'success', text: 'Note successfully updated! Redirecting...' });
+        setTimeout(() => navigate('/notes'), 1500);
       } else {
         const errData = await response.json();
-        alert(`Failed to update: ${errData.message || 'Unknown error'}`);
+        setMessage({ type: 'error', text: `Failed to update: ${errData.message || 'Unknown error'}` });
       }
     } catch (err) {
       console.error(err);
-      alert('Error updating note');
+      setMessage({ type: 'error', text: 'Error updating note' });
     }
   };
 
@@ -74,6 +75,18 @@ function UpdateNote() {
       </div>
 
       <div className="glass-card">
+        {message.text && (
+          <div style={{
+            padding: '1rem', 
+            marginBottom: '1.5rem', 
+            borderRadius: '8px', 
+            backgroundColor: message.type === 'success' ? 'rgba(40, 167, 69, 0.2)' : 'rgba(220, 53, 69, 0.2)', 
+            color: message.type === 'success' ? '#fff' : '#ff6b6b',
+            border: `1px solid ${message.type === 'success' ? 'rgba(40, 167, 69, 0.5)' : 'rgba(220, 53, 69, 0.5)'}`
+          }}>
+            {message.text}
+          </div>
+        )}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="title">Note Title</label>

@@ -9,6 +9,7 @@ function UploadNote() {
     description: '',
     file: null
   });
+  const [message, setMessage] = useState({ type: '', text: '' });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,7 +23,7 @@ function UploadNote() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.title || !formData.subject || !formData.file) {
-      alert('Please fill out all required fields.');
+      setMessage({ type: 'error', text: 'Please fill out all required fields.' });
       return;
     }
     
@@ -39,15 +40,15 @@ function UploadNote() {
       });
 
       if (response.ok) {
-        alert('Note successfully uploaded!');
-        navigate('/notes');
+        setMessage({ type: 'success', text: 'Note successfully uploaded! Redirecting...' });
+        setTimeout(() => navigate('/notes'), 1500);
       } else {
         const errData = await response.json();
-        alert(`Failed to upload: ${errData.message || 'Unknown error'}`);
+        setMessage({ type: 'error', text: `Failed to upload: ${errData.message || 'Unknown error'}` });
       }
     } catch (err) {
       console.error(err);
-      alert('Error uploading file');
+      setMessage({ type: 'error', text: 'Error uploading file' });
     }
   };
 
@@ -58,6 +59,18 @@ function UploadNote() {
       </div>
 
       <div className="glass-card">
+        {message.text && (
+          <div style={{
+            padding: '1rem', 
+            marginBottom: '1.5rem', 
+            borderRadius: '8px', 
+            backgroundColor: message.type === 'success' ? 'rgba(40, 167, 69, 0.2)' : 'rgba(220, 53, 69, 0.2)', 
+            color: message.type === 'success' ? '#fff' : '#ff6b6b',
+            border: `1px solid ${message.type === 'success' ? 'rgba(40, 167, 69, 0.5)' : 'rgba(220, 53, 69, 0.5)'}`
+          }}>
+            {message.text}
+          </div>
+        )}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="title">Note Title *</label>
