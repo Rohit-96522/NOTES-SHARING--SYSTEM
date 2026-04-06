@@ -1,502 +1,92 @@
-📚 Notes Sharing System – MERN MVC Project
-📌 Project Title
-Notes Sharing System using MERN Stack (MVC Architecture)
-________________________________________
-📖 Project Description
-The Notes Sharing System is a full-stack web application developed using the MERN Stack (MongoDB, Express.js,
-React.js, Node.js) following the MVC (Model–View–Controller) architecture.
-This system allows students to upload, view, update, download, and delete notes efficiently. It provides 
-structured backend APIs and supports file uploads using middleware. The application demonstrates complete CRUD 
-operations using REST APIs including POST, GET, PUT, PATCH, and DELETE methods.
+# 📚 NotesShare – MERN Stack Academic Platform
 
-________________________________________
-🎯 Objectives
-•	To implement MVC architecture in a full-stack web application
-•	To develop a RESTful API using Express.js
-•	To manage data using MongoDB
-•	To handle file uploads using middleware
-•	To demonstrate CRUD operations
-•	To create a simple and functional React frontend
-________________________________________
-🧰 Technologies Used
-Frontend (View)
-•	React.js
-•	HTML5
-•	CSS3
-•	JavaScript
-•	Axios (API calls)
-Backend (Controller)
-•	Node.js
-•	Express.js
-Database (Model)
-•	MongoDB
-•	Mongoose
-Middleware
-•	Multer (File Upload Handling)
-•	CORS
-•	Express JSON Parser
-Development Tools
-•	Visual Studio Code
-•	Postman (API Testing)
-•	MongoDB Compass
-•	Git & GitHub
-________________________________________
-🏗️ Architecture Used
-This project follows the MVC (Model–View–Controller) Architecture.
-Model
-Defines database schemas using MongoDB and Mongoose.
-Example:
-•	Note Schema
-View
-React frontend that displays user interface components.
-Examples:
-•	Upload Note Form
-•	Notes List
-•	Update Note Form
-Controller
-Handles application logic and API functionality.
-Examples:
-•	Upload note
-•	Update note
-•	Delete note
-•	Fetch notes
-________________________________________
-📂 Project Folder Structure
-Notes-Sharing-System/
+![React](https://img.shields.io/badge/React-19.x-blue?logo=react) ![Node.js](https://img.shields.io/badge/Node.js-Express-green?logo=nodedotjs) ![MongoDB](https://img.shields.io/badge/MongoDB-Database-success?logo=mongodb) ![Vite](https://img.shields.io/badge/Vite-Bundler-purple?logo=vite)
 
-client/
-│
-├── src/
-│   ├── components/
-│   │   ├── UploadNote.js
-│   │   ├── NoteList.js
-│   │   └── UpdateNote.js
-│   │
-│   ├── pages/
-│   │   └── Dashboard.js
-│   │
-│   ├── services/
-│   │   └── api.js
-│   │
-│   ├── App.js
-│   └── index.js
-│
+NotesShare is a modern, full-stack web application developed using the **MERN Stack** (MongoDB, Express.js, React.js, Node.js). It follows the **MVC (Model-View-Controller)** architecture and is designed with a very sophisticated glassmorphic UI. The application empowers students to upload, view, edit, download, and delete academic notes effortlessly.
 
-server/
-│
-├── config/
-│   └── db.js
-│
-├── models/
-│   └── Note.js
-│
-├── controllers/
-│   └── noteController.js
-│
-├── routes/
-│   └── noteRoutes.js
-│
-├── middleware/
-│   └── uploadMiddleware.js
-│
-├── uploads/
-│
-├── server.js
-│
-└── package.json
-________________________________________
-🗄️ Database Design
+## ✨ Features
 
-        Note Collection Fields
-Field Name     	Data Type	Description
-title	        String	    Title of the note
-subject	        String	    Subject name
-description	    String	    Note description
-fileUrl	        String	    Uploaded file path
-status	        String	    Active/Inactive
-uploadedAt	    Date	    Upload timestamp
-________________________________________
+- **Full CRUD Operations**: Create, Read, Update, and Delete notes.
+- **File Uploads**: Supports attachments (PDF, DOCX, DOC, PPT, Images) directly linked to notes using MongoDB and local server storage via `multer`.
+- **Sleek UI/UX**: Designed with beautiful glassmorphism components, custom inline notifications, and modern responsive grids.
+- **Dynamic Dashboard**: Computes aggregate statistics instantly (Total Notes, Subjects Covered, Recent Uploads) based on server data.
+- **RESTful API**: Completely decoupled backend with well-defined JSON endpoints.
 
-🔌 REST API Endpoints
+## 🛠️ Tech Stack
 
-POST API
-    Upload Note
-POST /api/notes/upload
-Purpose:
-Uploads a new note file to the server.
-________________________________________
-GET APIs
-Get All Notes
-GET /api/notes
-Returns all uploaded notes.
-________________________________________
-Get Note by ID
-GET /api/notes/:id
-Returns a specific note.
-________________________________________
-PUT API
-Update Note
-PUT /api/notes/:id
-Updates all fields of an existing note.
-________________________________________
-PATCH API
-Update Note Status
-PATCH /api/notes/:id/status
-Updates only the note status.
-________________________________________
-DELETE API
-Delete Note
-DELETE /api/notes/:id
-Removes a note from the system.
-________________________________________
-📤 File Upload Feature
-The system uses Multer middleware to handle file uploads.
-Supported File Types:
-•	PDF
-•	DOC
-•	DOCX
-•	PPT
-•	Images
-Uploaded files are stored in:
-server/uploads/
-________________________________________
-🎨 User Interface Features
-The UI is designed to be minimal and functional.
-Main Pages
-1.	Upload Note Page
-2.	Notes List Page
-3.	Update Note Page
-4.	Dashboard
-________________________________________
-⚙️ Installation and Setup
-Follow these steps to run the project locally.
-________________________________________
-Step 1 — Clone Repository
-git clone https://github.com/your-username/notes-sharing-system.git
-________________________________________
-Step 2 — Install Backend Dependencies
-cd server
+### Frontend (Client)
+- React.js (via Vite)
+- React Router DOM
+- Custom CSS Variables & Glassmorphism Design
+- Fetch API for Backend communication
+
+### Backend (Server)
+- Node.js & Express.js
+- MongoDB & Mongoose
+- Multer (File buffering and saving)
+- CORS & Express JSON Middleware
+
+## 📂 Project Structure
+
+```text
+NotesShare/
+├── backend/                  # Express.js Server
+│   ├── config/               # Database config (db.js)
+│   ├── controllers/          # API Handlers (noteController.js)
+│   ├── middleware/           # Upload processing (uploadMiddleware.js)
+│   ├── models/               # Mongoose Schemas (Note.js)
+│   ├── routes/               # API Router (noteRoutes.js)
+│   ├── uploads/              # Local file storage
+│   ├── server.js             # Server Entry point
+│   └── package.json          # Backend Dependencies
+├── src/                      # React Frontend (Vite)
+│   ├── views/                # React Pages (Dashboard, NoteList, UploadNote, UpdateNote)
+│   ├── App.jsx               # Main React Component & Routing
+│   ├── main.jsx              # React DOM Entry
+│   └── App.css / index.css   # Global Styles & Theming
+├── package.json              # Frontend Dependencies
+└── vite.config.js            # Vite configuration
+```
+
+## 🔌 API Reference
+
+| Method | Endpoint                    | Description                          |
+|--------|-----------------------------|--------------------------------------|
+| `GET`  | `/api/notes`                | Fetch all notes                      |
+| `POST` | `/api/notes/upload`         | Upload a new note (with file attachments) |
+| `GET`  | `/api/notes/:id`            | Fetch a specific note by its ID      |
+| `PUT`  | `/api/notes/:id`            | Update an existing note (and file)   |
+| `PATCH`| `/api/notes/:id/status`     | Toggle note status (Active/Inactive) |
+| `DELETE`|`/api/notes/:id`            | Permanently delete a note             |
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js installed locally
+- MongoDB running locally (default: `mongodb://127.0.0.1:27017/notesDB`)
+
+### 1. Backend Setup
+
+Open a terminal and navigate to the backend folder:
+
+```bash
+cd backend
 npm install
-________________________________________
-Step 3 — Install Frontend Dependencies
-cd client
+npm start
+```
+*The server will run on `http://localhost:5000`.*
+
+### 2. Frontend Setup
+
+Open a new terminal and navigate to the project root:
+
+```bash
 npm install
-________________________________________
-Step 4 — Start MongoDB
-Make sure MongoDB is running locally.
-Default URL:
-mongodb://127.0.0.1:27017/notesDB
-________________________________________
-Step 5 — Run Backend Server
-cd server
-npm start
-Server runs on:
-http://localhost:5000
-________________________________________
-Step 6 — Run Frontend
-cd client
-npm start
-Frontend runs on:
-http://localhost:3000
-________________________________________
-🧪 API Testing
-All APIs were tested using:
-•	Postman
-Test Cases:
-•	Upload note
-•	Get notes
-•	Update note
-•	Delete note
-•	Update status
-________________________________________
-🔐 Optional Future Enhancements
-•	User Authentication (JWT)
-•	Role-based Access (Student/Admin)
-•	File Preview System
-•	Search Notes Feature
-•	Download Counter
-•	Cloud Storage Integration
-•	Pagination Support
-________________________________________
-📊 Project Advantages
-•	Implements full CRUD operations
-•	Uses REST API standards
-•	Follows MVC architecture
-•	Supports file uploads
-•	Simple UI and strong backend
-•	Suitable for academic FSD projects
-________________________________________
-⚠️ Limitations
-•	No authentication (basic version)
-•	Local file storage only
-•	Minimal UI d📚 Notes Sharing System – MERN MVC Project
-📌 Project Title
-Notes Sharing System using MERN Stack (MVC Architecture)
-________________________________________
-📖 Project Description
-The Notes Sharing System is a full-stack web application developed using the MERN Stack (MongoDB, Express.js, React.js, Node.js) following the MVC (Model–View–Controller) architecture.
-This system allows students to upload, view, update, download, and delete notes efficiently. It provides structured backend APIs and supports file uploads using middleware. The application demonstrates complete CRUD operations using REST APIs including POST, GET, PUT, PATCH, and DELETE methods.
-The project focuses on building a minimal user interface with a medium-level backend suitable for academic full-stack development projects.
-________________________________________
-🎯 Objectives
-•	To implement MVC architecture in a full-stack web application
-•	To develop a RESTful API using Express.js
-•	To manage data using MongoDB
-•	To handle file uploads using middleware
-•	To demonstrate CRUD operations
-•	To create a simple and functional React frontend
-________________________________________
-🧰 Technologies Used
-Frontend (View)
-•	React.js
-•	HTML5
-•	CSS3
-•	JavaScript
-•	Axios (API calls)
-Backend (Controller)
-•	Node.js
-•	Express.js
-Database (Model)
-•	MongoDB
-•	Mongoose
-Middleware
-•	Multer (File Upload Handling)
-•	CORS
-•	Express JSON Parser
-Development Tools
-•	Visual Studio Code
-•	Postman (API Testing)
-•	MongoDB Compass
-•	Git & GitHub
-________________________________________
-🏗️ Architecture Used
-This project follows the MVC (Model–View–Controller) Architecture.
-Model
-Defines database schemas using MongoDB and Mongoose.
-Example:
-•	Note Schema
-View
-React frontend that displays user interface components.
-Examples:
-•	Upload Note Form
-•	Notes List
-•	Update Note Form
-Controller
-Handles application logic and API functionality.
-Examples:
-•	Upload note
-•	Update note
-•	Delete note
-•	Fetch notes
-________________________________________
-📂 Project Folder Structure
-Notes-Sharing-System/
+npm run dev
+```
+*The client will run on `http://localhost:5173` (Vite).*
 
-client/
-│
-├── src/
-│   ├── components/
-│   │   ├── UploadNote.js
-│   │   ├── NoteList.js
-│   │   └── UpdateNote.js
-│   │
-│   ├── pages/
-│   │   └── Dashboard.js
-│   │
-│   ├── services/
-│   │   └── api.js
-│   │
-│   ├── App.js
-│   └── index.js
-│
-
-server/
-│
-├── config/
-│   └── db.js
-│
-├── models/
-│   └── Note.js
-│
-├── controllers/
-│   └── noteController.js
-│
-├── routes/
-│   └── noteRoutes.js
-│
-├── middleware/
-│   └── uploadMiddleware.js
-│
-├── uploads/
-│
-├── server.js
-│
-└── package.json
-________________________________________
-🗄️ Database Design
-Note Collection Fields
-Field Name	Data Type	Description
-title	String	Title of the note
-subject	String	Subject name
-description	String	Note description
-fileUrl	String	Uploaded file path
-status	String	Active/Inactive
-uploadedAt	Date	Upload timestamp
-________________________________________
-🔌 REST API Endpoints
-POST API
-Upload Note
-POST /api/notes/upload
-Purpose:
-Uploads a new note file to the server.
-________________________________________
-GET APIs
-Get All Notes
-GET /api/notes
-Returns all uploaded notes.
-________________________________________
-Get Note by ID
-GET /api/notes/:id
-Returns a specific note.
-________________________________________
-PUT API
-Update Note
-PUT /api/notes/:id
-Updates all fields of an existing note.
-________________________________________
-PATCH API
-Update Note Status
-PATCH /api/notes/:id/status
-Updates only the note status.
-________________________________________
-DELETE API
-Delete Note
-DELETE /api/notes/:id
-Removes a note from the system.
-________________________________________
-📤 File Upload Feature
-The system uses Multer middleware to handle file uploads.
-Supported File Types:
-•	PDF
-•	DOC
-•	DOCX
-•	PPT
-•	Images
-Uploaded files are stored in:
-server/uploads/
-________________________________________
-🎨 User Interface Features
-The UI is designed to be minimal and functional.
-Main Pages
-1.	Upload Note Page
-2.	Notes List Page
-3.	Update Note Page
-4.	Dashboard
-________________________________________
-⚙️ Installation and Setup
-Follow these steps to run the project locally.
-________________________________________
-Step 1 — Clone Repository
-git clone https://github.com/your-username/notes-sharing-system.git
-________________________________________
-Step 2 — Install Backend Dependencies
-cd server
-npm install
-________________________________________
-Step 3 — Install Frontend Dependencies
-cd client
-npm install
-________________________________________
-Step 4 — Start MongoDB
-Make sure MongoDB is running locally.
-Default URL:
-mongodb://127.0.0.1:27017/notesDB
-________________________________________
-Step 5 — Run Backend Server
-cd server
-npm start
-Server runs on:
-http://localhost:5000
-________________________________________
-Step 6 — Run Frontend
-cd client
-npm start
-Frontend runs on:
-http://localhost:3000
-________________________________________
-🧪 API Testing
-All APIs were tested using:
-•	Postman
-Test Cases:
-•	Upload note
-•	Get notes
-•	Update note
-•	Delete note
-•	Update status
-________________________________________
-🔐 Optional Future Enhancements
-•	User Authentication (JWT)
-•	Role-based Access (Student/Admin)
-•	File Preview System
-•	Search Notes Feature
-•	Download Counter
-•	Cloud Storage Integration
-•	Pagination Support
-________________________________________
-📊 Project Advantages
-•	Implements full CRUD operations
-•	Uses REST API standards
-•	Follows MVC architecture
-•	Supports file uploads
-•	Simple UI and strong backend
-•	Suitable for academic FSD projects
-________________________________________
-⚠️ Limitations
-•	No authentication (basic version)
-•	Local file storage only
-•	Minimal UI design
-•	No cloud storage integration
-________________________________________
-🎓 Learning Outcomes
-Through this project, the following skills are demonstrated:
-•	MERN Stack Development
-•	REST API Design
-•	MVC Architecture Implementation
-•	MongoDB Database Handling
-•	File Upload Handling
-•	Frontend–Backend Integration
-________________________________________
-📌 Conclusion
-The Notes Sharing System successfully demonstrates the implementation of a full-stack MERN application using MVC architecture. It includes essential backend functionalities such as file uploads, REST APIs, and CRUD operations, along with a simple frontend interface.
-This project provides practical exposure to real-world web development and is suitable as a medium-level full-stack development project.
-________________________________________
-👨‍💻 Author
-Project Developed By:
-Student – Full Stack Development (MERN)
-________________________________________
-📄 License
-This project is developed for educational purposes.
-
-esign
-•	No cloud storage integration
-________________________________________
-🎓 Learning Outcomes
-Through this project, the following skills are demonstrated:
-•	MERN Stack Development
-•	REST API Design
-•	MVC Architecture Implementation
-•	MongoDB Database Handling
-•	File Upload Handling
-•	Frontend–Backend Integration
-________________________________________
-📌 Conclusion
-The Notes Sharing System successfully demonstrates the implementation of a full-stack MERN application using MVC architecture. It includes essential backend functionalities such as file uploads, REST APIs, and CRUD operations, along with a simple frontend interface.
-This project provides practical exposure to real-world web development and is suitable as a medium-level full-stack development project.
-________________________________________
-👨‍💻 Author
-Project Developed By:
-Student – Full Stack Development (MERN)
-________________________________________
-📄 License
-This project is developed for educational purposes.
-
+## 💡 Future Enhancements
+- **User Authentication**: Implement JWT-based sessions.
+- **Search and Filtering**: Find notes instantly by Subject or Title.
+- **Cloud Storage**: Use AWS S3 or Cloudinary for file uploads rather than a local `./uploads/` directory.
